@@ -24,6 +24,15 @@ public class UIManager : MonoBehaviour
     public GameObject UI_ChangeNickName;
     [SerializeField] private TMP_InputField inputChangeNickName;
 
+    [Header("UI_ParticipantsList")]
+    public GameObject UI_ParticipantsList;
+    [SerializeField] private GameObject gridPanel;
+    [SerializeField] private GameObject slotPrefab;
+
+    [Header("UI_NpcTalk")]
+    public GameObject UI_NpcTalk;
+
+
     private void Start()
     {
 
@@ -65,5 +74,28 @@ public class UIManager : MonoBehaviour
     public void ChangePlayerCharacter(int idx)
     {
         GameManager.Instance.ChangePlayerChatarcter(idx);
+    }
+
+    public void SetParticipantsList()
+    {
+        foreach (Transform child in gridPanel.transform)
+            Destroy(child.gameObject);
+
+        GameObject goParents = GameManager.Instance.NpcListParent;
+
+        foreach(Transform npcInfo in goParents.transform)
+        {
+            NpcController npcController = npcInfo.GetComponent<NpcController>();
+            GameObject go = Instantiate(slotPrefab, gridPanel.transform);
+            go.GetOrAddComponent<ParticipantsFrame>().SetInfo(npcController.NpcSO);
+        }
+
+        GameObject go1 = Instantiate(slotPrefab, gridPanel.transform);
+        go1.GetOrAddComponent<ParticipantsFrame>().SetPlayerInfo();
+    }
+
+    public void ShowTalkScript()
+    {
+
     }
 }

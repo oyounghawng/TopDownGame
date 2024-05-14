@@ -8,11 +8,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [SerializeField] private UIManager uiManager;
+    public UIManager uiManager;
     public GameObject player{ get; private set; }
     public GameObject playerPrefab;
-
+    public GameObject NpcListParent;
     public RuntimeAnimatorController[] controller;
+
+    public string NickName;
     private void Awake()
     {
         if (Instance != null) Destroy(this.gameObject);
@@ -34,11 +36,13 @@ public class GameManager : MonoBehaviour
         uiManager.UI_Game.SetActive(true);
         Camera camera = Camera.main;
         camera.GetOrAddComponent<CameraController>().Player = go.transform;
+        NickName = nickname;
     }
    public void ChangeNickName(string nickname)
     {
         TextMeshProUGUI playertext = player.GetComponentInChildren<TextMeshProUGUI>();
         playertext.text = nickname;
+        NickName = nickname;
     }
     public void ChangePlayerChatarcter(int idx)
     {
